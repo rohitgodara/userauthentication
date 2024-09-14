@@ -26,11 +26,9 @@ public class JwtService {
     }
 
     private String createToken(Map<String, Object> claims, String userName) {
-        return Jwts.builder()
-                .claims(claims)
-                .subject(userName)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+        return Jwts.builder().setClaims(claims).setSubject(userName)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -53,11 +51,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token){
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
