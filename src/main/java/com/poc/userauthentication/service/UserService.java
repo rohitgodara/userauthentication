@@ -6,6 +6,7 @@ import com.poc.userauthentication.model.UserModel;
 import com.poc.userauthentication.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import static com.poc.userauthentication.util.AppConstants.NOT_FOUND;
 
 @Service
 @AllArgsConstructor
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 
     private final IUserRepository userRepository;
 
