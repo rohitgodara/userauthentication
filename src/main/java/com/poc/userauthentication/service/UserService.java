@@ -1,19 +1,28 @@
 package com.poc.userauthentication.service;
 
 import com.poc.userauthentication.entity.User;
+import com.poc.userauthentication.entity.UserInfoDetails;
 import com.poc.userauthentication.model.UserModel;
 import com.poc.userauthentication.repository.IUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+
+import static com.poc.userauthentication.util.AppConstants.NOT_FOUND;
 
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
+
+    private final PasswordEncoder encoder;
 
     @Override
     public User create(UserModel userData) {
@@ -23,7 +32,7 @@ public class UserService implements IUserService {
                 .lastName(userData.getLastName())
                 .username(userData.getUsername())
                 .email(userData.getEmail())
-                .password(userData.getPassword())
+                .password(encoder.encode(userData.getPassword()))
                 .role(userData.getRole())
                 .age(userData.getAge())
                 .isActive(Boolean.TRUE)
@@ -37,4 +46,14 @@ public class UserService implements IUserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userDetail = userRepository.findByUsername(username);
+        return userDetail.map(UserInfoDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(
+                        NOT_FOUND, username)));
+    }
+
 }
