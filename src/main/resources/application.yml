@@ -1,0 +1,17 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: UserAuthentication
+  datasource.url: jdbc:mysql://127.0.0.1:9190/${MYSQL_DATABASE}
+  datasource.username: root
+  datasource.password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+#    generate-ddm: true
+
+logging:
+  level:
+    org.springframework.security: trace

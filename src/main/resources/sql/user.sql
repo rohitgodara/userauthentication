@@ -1,0 +1,2 @@
+insert into users(1, 28, null, "rsgodara001@gmail.com", "Rohit", true, "Godara", null, "password", "ADMIN", "rsgodara001");
+insert into users(2, 20, null, "rsgodara003@gmail.com", "Learner", true, "Godara", null, "password", "LEARNER", "rsgodara003");
