@@ -15,7 +15,7 @@ public class UserController {
 
     private final IUserService userService;
 
-    @PostMapping
+    @PostMapping("signup")
     public ResponseEntity<Object> create(@RequestBody UserModel userData) {
         return ResponseEntity.created(URI.create(userService.create(userData).getId().toString())).build();
     }

@@ -10,4 +10,5 @@ public interface IUserService {
     User create(UserModel userData);
 
     List<User> findAll();
+
 }
