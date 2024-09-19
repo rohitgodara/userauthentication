@@ -5,6 +5,7 @@ import com.poc.userauthentication.entity.UserInfoDetails;
 import com.poc.userauthentication.model.UserModel;
 import com.poc.userauthentication.repository.IUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import static com.poc.userauthentication.util.AppConstants.NOT_FOUND;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService, UserDetailsService {
@@ -51,6 +53,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("loadUserByUsername :: {}", username);
         Optional<User> userDetail = userRepository.findByUsername(username);
         return userDetail.map(UserInfoDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(
